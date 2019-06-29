@@ -9,7 +9,9 @@ import Foundation
 
 
 /** Result from validating a phone number */
-public class PhoneNumberValidationResponse: JSONEncodable {
+
+public struct PhoneNumberValidationResponse: Codable {
+
     /** True if the phone number is valid, false otherwise */
     public var isValid: Bool?
     /** True if the operation was successful, false if there was an error during validation.  See IsValid for validation result. */
@@ -27,20 +29,28 @@ public class PhoneNumberValidationResponse: JSONEncodable {
     /** User-friendly long name of the country for the phone number */
     public var countryName: String?
 
-    public init() {}
-
-    // MARK: JSONEncodable
-    func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["IsValid"] = self.isValid
-        nillableDictionary["Successful"] = self.successful
-        nillableDictionary["PhoneNumberType"] = self.phoneNumberType
-        nillableDictionary["E164Format"] = self.e164Format
-        nillableDictionary["InternationalFormat"] = self.internationalFormat
-        nillableDictionary["NationalFormat"] = self.nationalFormat
-        nillableDictionary["CountryCode"] = self.countryCode
-        nillableDictionary["CountryName"] = self.countryName
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+    public init(isValid: Bool?, successful: Bool?, phoneNumberType: String?, e164Format: String?, internationalFormat: String?, nationalFormat: String?, countryCode: String?, countryName: String?) {
+        self.isValid = isValid
+        self.successful = successful
+        self.phoneNumberType = phoneNumberType
+        self.e164Format = e164Format
+        self.internationalFormat = internationalFormat
+        self.nationalFormat = nationalFormat
+        self.countryCode = countryCode
+        self.countryName = countryName
     }
+
+    public enum CodingKeys: String, CodingKey { 
+        case isValid = "IsValid"
+        case successful = "Successful"
+        case phoneNumberType = "PhoneNumberType"
+        case e164Format = "E164Format"
+        case internationalFormat = "InternationalFormat"
+        case nationalFormat = "NationalFormat"
+        case countryCode = "CountryCode"
+        case countryName = "CountryName"
+    }
+
+
 }
+

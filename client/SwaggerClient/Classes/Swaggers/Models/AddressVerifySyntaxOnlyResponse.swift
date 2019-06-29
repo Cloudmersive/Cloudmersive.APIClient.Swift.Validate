@@ -9,17 +9,20 @@ import Foundation
 
 
 /** Syntactic validity of email address */
-public class AddressVerifySyntaxOnlyResponse: JSONEncodable {
+
+public struct AddressVerifySyntaxOnlyResponse: Codable {
+
     /** True if the email address is syntactically valid, false if it is not */
     public var validAddress: Bool?
 
-    public init() {}
-
-    // MARK: JSONEncodable
-    func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["ValidAddress"] = self.validAddress
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+    public init(validAddress: Bool?) {
+        self.validAddress = validAddress
     }
+
+    public enum CodingKeys: String, CodingKey { 
+        case validAddress = "ValidAddress"
+    }
+
+
 }
+

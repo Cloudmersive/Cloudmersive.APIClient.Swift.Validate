@@ -9,7 +9,9 @@ import Foundation
 
 
 /** Full email addresss validation result */
-public class FullEmailValidationResponse: JSONEncodable {
+
+public struct FullEmailValidationResponse: Codable {
+
     /** True if the email address is valid overall, false otherwise */
     public var validAddress: Bool?
     /** Email server connected to for verification */
@@ -25,19 +27,26 @@ public class FullEmailValidationResponse: JSONEncodable {
     /** Domain name of the email address */
     public var domain: String?
 
-    public init() {}
-
-    // MARK: JSONEncodable
-    func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["ValidAddress"] = self.validAddress
-        nillableDictionary["MailServerUsedForValidation"] = self.mailServerUsedForValidation
-        nillableDictionary["Valid_Syntax"] = self.validSyntax
-        nillableDictionary["Valid_Domain"] = self.validDomain
-        nillableDictionary["Valid_SMTP"] = self.validSMTP
-        nillableDictionary["IsCatchallDomain"] = self.isCatchallDomain
-        nillableDictionary["Domain"] = self.domain
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+    public init(validAddress: Bool?, mailServerUsedForValidation: String?, validSyntax: Bool?, validDomain: Bool?, validSMTP: Bool?, isCatchallDomain: Bool?, domain: String?) {
+        self.validAddress = validAddress
+        self.mailServerUsedForValidation = mailServerUsedForValidation
+        self.validSyntax = validSyntax
+        self.validDomain = validDomain
+        self.validSMTP = validSMTP
+        self.isCatchallDomain = isCatchallDomain
+        self.domain = domain
     }
+
+    public enum CodingKeys: String, CodingKey { 
+        case validAddress = "ValidAddress"
+        case mailServerUsedForValidation = "MailServerUsedForValidation"
+        case validSyntax = "Valid_Syntax"
+        case validDomain = "Valid_Domain"
+        case validSMTP = "Valid_SMTP"
+        case isCatchallDomain = "IsCatchallDomain"
+        case domain = "Domain"
+    }
+
+
 }
+

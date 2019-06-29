@@ -5,20 +5,21 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
 
-public class DomainAPI: APIBase {
+open class DomainAPI {
     /**
      Validate a domain name
      
      - parameter domain: (body) Domain name to check, for example \&quot;cloudmersive.com\&quot;.  The input is a string so be sure to enclose it in double-quotes. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func domainCheck(domain domain: String, completion: ((data: CheckResponse?, error: ErrorType?) -> Void)) {
+    open class func domainCheck(domain: String, completion: @escaping ((_ data: CheckResponse?,_ error: Error?) -> Void)) {
         domainCheckWithRequestBuilder(domain: domain).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error)
         }
     }
 
@@ -45,16 +46,16 @@ public class DomainAPI: APIBase {
 
      - returns: RequestBuilder<CheckResponse> 
      */
-    public class func domainCheckWithRequestBuilder(domain domain: String) -> RequestBuilder<CheckResponse> {
+    open class func domainCheckWithRequestBuilder(domain: String) -> RequestBuilder<CheckResponse> {
         let path = "/validate/domain/check"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = domain.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: domain)
+
+        let url = URLComponents(string: URLString)
+
         let requestBuilder: RequestBuilder<CheckResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
     /**
@@ -63,9 +64,9 @@ public class DomainAPI: APIBase {
      - parameter domain: (body) Domain name to check, for example \&quot;cloudmersive.com\&quot;.   The input is a string so be sure to enclose it in double-quotes. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func domainPost(domain domain: String, completion: ((data: WhoisResponse?, error: ErrorType?) -> Void)) {
+    open class func domainPost(domain: String, completion: @escaping ((_ data: WhoisResponse?,_ error: Error?) -> Void)) {
         domainPostWithRequestBuilder(domain: domain).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error)
         }
     }
 
@@ -104,16 +105,16 @@ public class DomainAPI: APIBase {
 
      - returns: RequestBuilder<WhoisResponse> 
      */
-    public class func domainPostWithRequestBuilder(domain domain: String) -> RequestBuilder<WhoisResponse> {
+    open class func domainPostWithRequestBuilder(domain: String) -> RequestBuilder<WhoisResponse> {
         let path = "/validate/domain/whois"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = domain.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: domain)
+
+        let url = URLComponents(string: URLString)
+
         let requestBuilder: RequestBuilder<WhoisResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
 }

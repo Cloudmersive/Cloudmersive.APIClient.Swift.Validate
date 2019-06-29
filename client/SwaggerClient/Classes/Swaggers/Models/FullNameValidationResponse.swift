@@ -9,7 +9,9 @@ import Foundation
 
 
 /** Result of a full name validation operation */
-public class FullNameValidationResponse: JSONEncodable {
+
+public struct FullNameValidationResponse: Codable {
+
     /** True if the validation operation was successful, false otherwise */
     public var successful: Bool?
     /** Possible values are: ValidFirstName, ValidUnknownFirstName, InvalidSpamInput, InvalidCharacters, InvalidEmpty */
@@ -31,22 +33,32 @@ public class FullNameValidationResponse: JSONEncodable {
     /** The full display name of the name */
     public var displayName: String?
 
-    public init() {}
-
-    // MARK: JSONEncodable
-    func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["Successful"] = self.successful
-        nillableDictionary["ValidationResult_FirstName"] = self.validationResultFirstName
-        nillableDictionary["ValidationResult_LastName"] = self.validationResultLastName
-        nillableDictionary["Title"] = self.title
-        nillableDictionary["FirstName"] = self.firstName
-        nillableDictionary["MiddleName"] = self.middleName
-        nillableDictionary["LastName"] = self.lastName
-        nillableDictionary["NickName"] = self.nickName
-        nillableDictionary["Suffix"] = self.suffix
-        nillableDictionary["DisplayName"] = self.displayName
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+    public init(successful: Bool?, validationResultFirstName: String?, validationResultLastName: String?, title: String?, firstName: String?, middleName: String?, lastName: String?, nickName: String?, suffix: String?, displayName: String?) {
+        self.successful = successful
+        self.validationResultFirstName = validationResultFirstName
+        self.validationResultLastName = validationResultLastName
+        self.title = title
+        self.firstName = firstName
+        self.middleName = middleName
+        self.lastName = lastName
+        self.nickName = nickName
+        self.suffix = suffix
+        self.displayName = displayName
     }
+
+    public enum CodingKeys: String, CodingKey { 
+        case successful = "Successful"
+        case validationResultFirstName = "ValidationResult_FirstName"
+        case validationResultLastName = "ValidationResult_LastName"
+        case title = "Title"
+        case firstName = "FirstName"
+        case middleName = "MiddleName"
+        case lastName = "LastName"
+        case nickName = "NickName"
+        case suffix = "Suffix"
+        case displayName = "DisplayName"
+    }
+
+
 }
+

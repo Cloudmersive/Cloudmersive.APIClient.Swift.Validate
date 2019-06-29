@@ -9,18 +9,22 @@ import Foundation
 
 
 /** Result of a partial email address validation */
-public class AddressGetServersResponse: JSONEncodable {
+
+public struct AddressGetServersResponse: Codable {
+
     public var success: Bool?
     public var servers: [String]?
 
-    public init() {}
-
-    // MARK: JSONEncodable
-    func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["Success"] = self.success
-        nillableDictionary["Servers"] = self.servers?.encodeToJSON()
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+    public init(success: Bool?, servers: [String]?) {
+        self.success = success
+        self.servers = servers
     }
+
+    public enum CodingKeys: String, CodingKey { 
+        case success = "Success"
+        case servers = "Servers"
+    }
+
+
 }
+

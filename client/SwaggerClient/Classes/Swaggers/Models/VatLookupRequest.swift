@@ -9,16 +9,19 @@ import Foundation
 
 
 /** Input to a VAT lookup request */
-public class VatLookupRequest: JSONEncodable {
+
+public struct VatLookupRequest: Codable {
+
     public var vatCode: String?
 
-    public init() {}
-
-    // MARK: JSONEncodable
-    func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["VatCode"] = self.vatCode
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+    public init(vatCode: String?) {
+        self.vatCode = vatCode
     }
+
+    public enum CodingKeys: String, CodingKey { 
+        case vatCode = "VatCode"
+    }
+
+
 }
+

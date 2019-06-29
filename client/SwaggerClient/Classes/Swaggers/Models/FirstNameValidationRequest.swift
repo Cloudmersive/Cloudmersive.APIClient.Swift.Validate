@@ -9,17 +9,20 @@ import Foundation
 
 
 /** Request to validate a first name */
-public class FirstNameValidationRequest: JSONEncodable {
+
+public struct FirstNameValidationRequest: Codable {
+
     /** First name to process */
     public var firstName: String?
 
-    public init() {}
-
-    // MARK: JSONEncodable
-    func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["FirstName"] = self.firstName
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+    public init(firstName: String?) {
+        self.firstName = firstName
     }
+
+    public enum CodingKeys: String, CodingKey { 
+        case firstName = "FirstName"
+    }
+
+
 }
+

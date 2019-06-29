@@ -5,20 +5,21 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
 
-public class PhoneNumberAPI: APIBase {
+open class PhoneNumberAPI {
     /**
      Validate phone number (basic)
      
      - parameter value: (body) Phone number to validate in a PhoneNumberValidateRequest object.  Try a phone number such as \&quot;1.800.463.3339\&quot;, and either leave DefaultCountryCode blank or use \&quot;US\&quot;. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func phoneNumberSyntaxOnly(value value: PhoneNumberValidateRequest, completion: ((data: PhoneNumberValidationResponse?, error: ErrorType?) -> Void)) {
+    open class func phoneNumberSyntaxOnly(value: PhoneNumberValidateRequest, completion: @escaping ((_ data: PhoneNumberValidationResponse?,_ error: Error?) -> Void)) {
         phoneNumberSyntaxOnlyWithRequestBuilder(value: value).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error)
         }
     }
 
@@ -73,16 +74,16 @@ public class PhoneNumberAPI: APIBase {
 
      - returns: RequestBuilder<PhoneNumberValidationResponse> 
      */
-    public class func phoneNumberSyntaxOnlyWithRequestBuilder(value value: PhoneNumberValidateRequest) -> RequestBuilder<PhoneNumberValidationResponse> {
+    open class func phoneNumberSyntaxOnlyWithRequestBuilder(value: PhoneNumberValidateRequest) -> RequestBuilder<PhoneNumberValidationResponse> {
         let path = "/validate/phonenumber/basic"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = value.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: value)
+
+        let url = URLComponents(string: URLString)
+
         let requestBuilder: RequestBuilder<PhoneNumberValidationResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
 }

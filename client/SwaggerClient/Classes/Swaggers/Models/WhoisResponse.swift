@@ -9,7 +9,9 @@ import Foundation
 
 
 /** Result of a WHOIS operation */
-public class WhoisResponse: JSONEncodable {
+
+public struct WhoisResponse: Codable {
+
     /** True if the domain is valid, false if it is not */
     public var validDomain: Bool?
     /** Server used to lookup WHOIS information (may change based on lookup). */
@@ -17,18 +19,22 @@ public class WhoisResponse: JSONEncodable {
     /** WHOIS raw text record */
     public var rawTextRecord: String?
     /** Creation date for the record */
-    public var createdDt: NSDate?
+    public var createdDt: Date?
 
-    public init() {}
-
-    // MARK: JSONEncodable
-    func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["ValidDomain"] = self.validDomain
-        nillableDictionary["WhoisServer"] = self.whoisServer
-        nillableDictionary["RawTextRecord"] = self.rawTextRecord
-        nillableDictionary["CreatedDt"] = self.createdDt?.encodeToJSON()
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+    public init(validDomain: Bool?, whoisServer: String?, rawTextRecord: String?, createdDt: Date?) {
+        self.validDomain = validDomain
+        self.whoisServer = whoisServer
+        self.rawTextRecord = rawTextRecord
+        self.createdDt = createdDt
     }
+
+    public enum CodingKeys: String, CodingKey { 
+        case validDomain = "ValidDomain"
+        case whoisServer = "WhoisServer"
+        case rawTextRecord = "RawTextRecord"
+        case createdDt = "CreatedDt"
+    }
+
+
 }
+

@@ -5,20 +5,21 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
 
-public class NameAPI: APIBase {
+open class NameAPI {
     /**
      Get the gender of a first name
      
      - parameter input: (body) Gender request information 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nameGetGender(input input: GetGenderRequest, completion: ((data: GetGenderResponse?, error: ErrorType?) -> Void)) {
+    open class func nameGetGender(input: GetGenderRequest, completion: @escaping ((_ data: GetGenderResponse?,_ error: Error?) -> Void)) {
         nameGetGenderWithRequestBuilder(input: input).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error)
         }
     }
 
@@ -49,16 +50,16 @@ public class NameAPI: APIBase {
 
      - returns: RequestBuilder<GetGenderResponse> 
      */
-    public class func nameGetGenderWithRequestBuilder(input input: GetGenderRequest) -> RequestBuilder<GetGenderResponse> {
+    open class func nameGetGenderWithRequestBuilder(input: GetGenderRequest) -> RequestBuilder<GetGenderResponse> {
         let path = "/validate/name/get-gender"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = input.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: input)
+
+        let url = URLComponents(string: URLString)
+
         let requestBuilder: RequestBuilder<GetGenderResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
     /**
@@ -67,9 +68,9 @@ public class NameAPI: APIBase {
      - parameter input: (body) Validation request information 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nameValidateFirstName(input input: FirstNameValidationRequest, completion: ((data: FirstNameValidationResponse?, error: ErrorType?) -> Void)) {
+    open class func nameValidateFirstName(input: FirstNameValidationRequest, completion: @escaping ((_ data: FirstNameValidationResponse?,_ error: Error?) -> Void)) {
         nameValidateFirstNameWithRequestBuilder(input: input).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error)
         }
     }
 
@@ -100,16 +101,16 @@ public class NameAPI: APIBase {
 
      - returns: RequestBuilder<FirstNameValidationResponse> 
      */
-    public class func nameValidateFirstNameWithRequestBuilder(input input: FirstNameValidationRequest) -> RequestBuilder<FirstNameValidationResponse> {
+    open class func nameValidateFirstNameWithRequestBuilder(input: FirstNameValidationRequest) -> RequestBuilder<FirstNameValidationResponse> {
         let path = "/validate/name/first"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = input.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: input)
+
+        let url = URLComponents(string: URLString)
+
         let requestBuilder: RequestBuilder<FirstNameValidationResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
     /**
@@ -118,9 +119,9 @@ public class NameAPI: APIBase {
      - parameter input: (body) Validation request information 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nameValidateFullName(input input: FullNameValidationRequest, completion: ((data: FullNameValidationResponse?, error: ErrorType?) -> Void)) {
+    open class func nameValidateFullName(input: FullNameValidationRequest, completion: @escaping ((_ data: FullNameValidationResponse?,_ error: Error?) -> Void)) {
         nameValidateFullNameWithRequestBuilder(input: input).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error)
         }
     }
 
@@ -183,16 +184,16 @@ public class NameAPI: APIBase {
 
      - returns: RequestBuilder<FullNameValidationResponse> 
      */
-    public class func nameValidateFullNameWithRequestBuilder(input input: FullNameValidationRequest) -> RequestBuilder<FullNameValidationResponse> {
+    open class func nameValidateFullNameWithRequestBuilder(input: FullNameValidationRequest) -> RequestBuilder<FullNameValidationResponse> {
         let path = "/validate/name/full-name"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = input.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: input)
+
+        let url = URLComponents(string: URLString)
+
         let requestBuilder: RequestBuilder<FullNameValidationResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
     /**
@@ -201,9 +202,9 @@ public class NameAPI: APIBase {
      - parameter input: (body) Validation request information 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nameValidateLastName(input input: LastNameValidationRequest, completion: ((data: LastNameValidationResponse?, error: ErrorType?) -> Void)) {
+    open class func nameValidateLastName(input: LastNameValidationRequest, completion: @escaping ((_ data: LastNameValidationResponse?,_ error: Error?) -> Void)) {
         nameValidateLastNameWithRequestBuilder(input: input).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error)
         }
     }
 
@@ -234,16 +235,16 @@ public class NameAPI: APIBase {
 
      - returns: RequestBuilder<LastNameValidationResponse> 
      */
-    public class func nameValidateLastNameWithRequestBuilder(input input: LastNameValidationRequest) -> RequestBuilder<LastNameValidationResponse> {
+    open class func nameValidateLastNameWithRequestBuilder(input: LastNameValidationRequest) -> RequestBuilder<LastNameValidationResponse> {
         let path = "/validate/name/last"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = input.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: input)
+
+        let url = URLComponents(string: URLString)
+
         let requestBuilder: RequestBuilder<LastNameValidationResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
 }

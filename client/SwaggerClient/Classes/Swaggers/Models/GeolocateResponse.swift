@@ -9,7 +9,9 @@ import Foundation
 
 
 /** Geolocation result */
-public class GeolocateResponse: JSONEncodable {
+
+public struct GeolocateResponse: Codable {
+
     /** Two-letter country code of IP address */
     public var countryCode: String?
     /** Country name of IP address */
@@ -29,21 +31,30 @@ public class GeolocateResponse: JSONEncodable {
     /** Longitude of IP address */
     public var longitude: Double?
 
-    public init() {}
-
-    // MARK: JSONEncodable
-    func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["CountryCode"] = self.countryCode
-        nillableDictionary["CountryName"] = self.countryName
-        nillableDictionary["City"] = self.city
-        nillableDictionary["RegionCode"] = self.regionCode
-        nillableDictionary["RegionName"] = self.regionName
-        nillableDictionary["ZipCode"] = self.zipCode
-        nillableDictionary["TimezoneStandardName"] = self.timezoneStandardName
-        nillableDictionary["Latitude"] = self.latitude
-        nillableDictionary["Longitude"] = self.longitude
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+    public init(countryCode: String?, countryName: String?, city: String?, regionCode: String?, regionName: String?, zipCode: String?, timezoneStandardName: String?, latitude: Double?, longitude: Double?) {
+        self.countryCode = countryCode
+        self.countryName = countryName
+        self.city = city
+        self.regionCode = regionCode
+        self.regionName = regionName
+        self.zipCode = zipCode
+        self.timezoneStandardName = timezoneStandardName
+        self.latitude = latitude
+        self.longitude = longitude
     }
+
+    public enum CodingKeys: String, CodingKey { 
+        case countryCode = "CountryCode"
+        case countryName = "CountryName"
+        case city = "City"
+        case regionCode = "RegionCode"
+        case regionName = "RegionName"
+        case zipCode = "ZipCode"
+        case timezoneStandardName = "TimezoneStandardName"
+        case latitude = "Latitude"
+        case longitude = "Longitude"
+    }
+
+
 }
+

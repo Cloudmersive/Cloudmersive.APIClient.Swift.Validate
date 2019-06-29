@@ -5,20 +5,21 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
 
-public class IPAddressAPI: APIBase {
+open class IPAddressAPI {
     /**
      Geolocate an IP address
      
      - parameter value: (body) IP address to geolocate, e.g. \&quot;55.55.55.55\&quot;.  The input is a string so be sure to enclose it in double-quotes. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func iPAddressPost(value value: String, completion: ((data: GeolocateResponse?, error: ErrorType?) -> Void)) {
+    open class func iPAddressPost(value: String, completion: @escaping ((_ data: GeolocateResponse?,_ error: Error?) -> Void)) {
         iPAddressPostWithRequestBuilder(value: value).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error)
         }
     }
 
@@ -77,16 +78,16 @@ public class IPAddressAPI: APIBase {
 
      - returns: RequestBuilder<GeolocateResponse> 
      */
-    public class func iPAddressPostWithRequestBuilder(value value: String) -> RequestBuilder<GeolocateResponse> {
+    open class func iPAddressPostWithRequestBuilder(value: String) -> RequestBuilder<GeolocateResponse> {
         let path = "/validate/ip/geolocate"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = value.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: value)
+
+        let url = URLComponents(string: URLString)
+
         let requestBuilder: RequestBuilder<GeolocateResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
 }

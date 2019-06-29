@@ -9,20 +9,24 @@ import Foundation
 
 
 /** Result of a first name validation operation */
-public class FirstNameValidationResponse: JSONEncodable {
+
+public struct FirstNameValidationResponse: Codable {
+
     /** True if the validation operation was successful, false otherwise */
     public var successful: Bool?
     /** Possible values are: ValidFirstName, ValidUnknownFirstName, InvalidSpamInput, InvalidCharacters, InvalidEmpty */
     public var validationResult: String?
 
-    public init() {}
-
-    // MARK: JSONEncodable
-    func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["Successful"] = self.successful
-        nillableDictionary["ValidationResult"] = self.validationResult
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+    public init(successful: Bool?, validationResult: String?) {
+        self.successful = successful
+        self.validationResult = validationResult
     }
+
+    public enum CodingKeys: String, CodingKey { 
+        case successful = "Successful"
+        case validationResult = "ValidationResult"
+    }
+
+
 }
+

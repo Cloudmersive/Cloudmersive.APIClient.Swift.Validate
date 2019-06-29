@@ -9,17 +9,20 @@ import Foundation
 
 
 /** Result of a validation operation */
-public class CheckResponse: JSONEncodable {
+
+public struct CheckResponse: Codable {
+
     /** True if the domain name was valid, false if it is not */
     public var validDomain: Bool?
 
-    public init() {}
-
-    // MARK: JSONEncodable
-    func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["ValidDomain"] = self.validDomain
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+    public init(validDomain: Bool?) {
+        self.validDomain = validDomain
     }
+
+    public enum CodingKeys: String, CodingKey { 
+        case validDomain = "ValidDomain"
+    }
+
+
 }
+

@@ -5,20 +5,21 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
 
-public class EmailAPI: APIBase {
+open class EmailAPI {
     /**
      Partially check whether an email address is valid
      
      - parameter email: (body) Email address to validate, e.g. \&quot;support@cloudmersive.com\&quot;.    The input is a string so be sure to enclose it in double-quotes. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func emailAddressGetServers(email email: String, completion: ((data: AddressGetServersResponse?, error: ErrorType?) -> Void)) {
+    open class func emailAddressGetServers(email: String, completion: @escaping ((_ data: AddressGetServersResponse?,_ error: Error?) -> Void)) {
         emailAddressGetServersWithRequestBuilder(email: email).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error)
         }
     }
 
@@ -49,16 +50,16 @@ public class EmailAPI: APIBase {
 
      - returns: RequestBuilder<AddressGetServersResponse> 
      */
-    public class func emailAddressGetServersWithRequestBuilder(email email: String) -> RequestBuilder<AddressGetServersResponse> {
+    open class func emailAddressGetServersWithRequestBuilder(email: String) -> RequestBuilder<AddressGetServersResponse> {
         let path = "/validate/email/address/servers"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = email.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: email)
+
+        let url = URLComponents(string: URLString)
+
         let requestBuilder: RequestBuilder<AddressGetServersResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
     /**
@@ -67,9 +68,9 @@ public class EmailAPI: APIBase {
      - parameter email: (body) Email address to validate, e.g. \&quot;support@cloudmersive.com\&quot;.    The input is a string so be sure to enclose it in double-quotes. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func emailFullValidation(email email: String, completion: ((data: FullEmailValidationResponse?, error: ErrorType?) -> Void)) {
+    open class func emailFullValidation(email: String, completion: @escaping ((_ data: FullEmailValidationResponse?,_ error: Error?) -> Void)) {
         emailFullValidationWithRequestBuilder(email: email).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error)
         }
     }
 
@@ -120,16 +121,16 @@ public class EmailAPI: APIBase {
 
      - returns: RequestBuilder<FullEmailValidationResponse> 
      */
-    public class func emailFullValidationWithRequestBuilder(email email: String) -> RequestBuilder<FullEmailValidationResponse> {
+    open class func emailFullValidationWithRequestBuilder(email: String) -> RequestBuilder<FullEmailValidationResponse> {
         let path = "/validate/email/address/full"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = email.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: email)
+
+        let url = URLComponents(string: URLString)
+
         let requestBuilder: RequestBuilder<FullEmailValidationResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
     /**
@@ -138,9 +139,9 @@ public class EmailAPI: APIBase {
      - parameter value: (body) Email address to validate, e.g. \&quot;support@cloudmersive.com\&quot;.    The input is a string so be sure to enclose it in double-quotes. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func emailPost(value value: String, completion: ((data: AddressVerifySyntaxOnlyResponse?, error: ErrorType?) -> Void)) {
+    open class func emailPost(value: String, completion: @escaping ((_ data: AddressVerifySyntaxOnlyResponse?,_ error: Error?) -> Void)) {
         emailPostWithRequestBuilder(value: value).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error)
         }
     }
 
@@ -167,16 +168,16 @@ public class EmailAPI: APIBase {
 
      - returns: RequestBuilder<AddressVerifySyntaxOnlyResponse> 
      */
-    public class func emailPostWithRequestBuilder(value value: String) -> RequestBuilder<AddressVerifySyntaxOnlyResponse> {
+    open class func emailPostWithRequestBuilder(value: String) -> RequestBuilder<AddressVerifySyntaxOnlyResponse> {
         let path = "/validate/email/address/syntaxOnly"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = value.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: value)
+
+        let url = URLComponents(string: URLString)
+
         let requestBuilder: RequestBuilder<AddressVerifySyntaxOnlyResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
 }

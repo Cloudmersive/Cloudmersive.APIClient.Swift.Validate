@@ -8,24 +8,31 @@
 import Foundation
 
 
-public class VatLookupResponse: JSONEncodable {
+
+public struct VatLookupResponse: Codable {
+
     public var countryCode: String?
     public var vatNumber: String?
     public var isValid: Bool?
     public var businessName: String?
     public var businessAddress: String?
 
-    public init() {}
-
-    // MARK: JSONEncodable
-    func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["CountryCode"] = self.countryCode
-        nillableDictionary["VatNumber"] = self.vatNumber
-        nillableDictionary["IsValid"] = self.isValid
-        nillableDictionary["BusinessName"] = self.businessName
-        nillableDictionary["BusinessAddress"] = self.businessAddress
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+    public init(countryCode: String?, vatNumber: String?, isValid: Bool?, businessName: String?, businessAddress: String?) {
+        self.countryCode = countryCode
+        self.vatNumber = vatNumber
+        self.isValid = isValid
+        self.businessName = businessName
+        self.businessAddress = businessAddress
     }
+
+    public enum CodingKeys: String, CodingKey { 
+        case countryCode = "CountryCode"
+        case vatNumber = "VatNumber"
+        case isValid = "IsValid"
+        case businessName = "BusinessName"
+        case businessAddress = "BusinessAddress"
+    }
+
+
 }
+

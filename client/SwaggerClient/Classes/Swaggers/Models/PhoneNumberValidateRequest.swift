@@ -9,20 +9,24 @@ import Foundation
 
 
 /** Request to validate a phone number */
-public class PhoneNumberValidateRequest: JSONEncodable {
+
+public struct PhoneNumberValidateRequest: Codable {
+
     /** Raw phone number string to parse as input for validation */
     public var phoneNumber: String?
     /** Optional, default country code.  If left blank, will default to \&quot;US\&quot;. */
     public var defaultCountryCode: String?
 
-    public init() {}
-
-    // MARK: JSONEncodable
-    func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["PhoneNumber"] = self.phoneNumber
-        nillableDictionary["DefaultCountryCode"] = self.defaultCountryCode
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+    public init(phoneNumber: String?, defaultCountryCode: String?) {
+        self.phoneNumber = phoneNumber
+        self.defaultCountryCode = defaultCountryCode
     }
+
+    public enum CodingKeys: String, CodingKey { 
+        case phoneNumber = "PhoneNumber"
+        case defaultCountryCode = "DefaultCountryCode"
+    }
+
+
 }
+

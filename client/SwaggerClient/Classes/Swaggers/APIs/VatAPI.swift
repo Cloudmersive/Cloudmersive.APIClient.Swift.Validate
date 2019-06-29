@@ -5,20 +5,21 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
 
-public class VatAPI: APIBase {
+open class VatAPI {
     /**
      Lookup a VAT code
      
      - parameter input: (body) Input VAT code 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func vatVatLookup(input input: VatLookupRequest, completion: ((data: VatLookupResponse?, error: ErrorType?) -> Void)) {
+    open class func vatVatLookup(input: VatLookupRequest, completion: @escaping ((_ data: VatLookupResponse?,_ error: Error?) -> Void)) {
         vatVatLookupWithRequestBuilder(input: input).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error)
         }
     }
 
@@ -61,16 +62,16 @@ public class VatAPI: APIBase {
 
      - returns: RequestBuilder<VatLookupResponse> 
      */
-    public class func vatVatLookupWithRequestBuilder(input input: VatLookupRequest) -> RequestBuilder<VatLookupResponse> {
+    open class func vatVatLookupWithRequestBuilder(input: VatLookupRequest) -> RequestBuilder<VatLookupResponse> {
         let path = "/validate/vat/lookup"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = input.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: input)
+
+        let url = URLComponents(string: URLString)
+
         let requestBuilder: RequestBuilder<VatLookupResponse>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
 }
