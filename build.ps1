@@ -24,12 +24,3 @@ $slnpath = Resolve-Path ./client/Cloudmersive.APIClient.NET.Validate.sln
 
 
 
-
-
-./nuget.exe restore $csprojpath -SolutionDirectory ./client
-
-./nuget.exe restore $csprojtestpath -SolutionDirectory ./client
-
-C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe $slnpath /t:rebuild 
-
-./nuget.exe pack $csprojpath
